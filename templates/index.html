@@ -1,0 +1,93 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+<!--escribis .row + enter y se pone solo-->
+<div class="row">
+
+    <div class="col-md-5">
+
+        {% with messages = get_flashed_messages() %}  <!--esta funcion retorna los mensajes que posiblemente le estemos mandando desde el servidor . si se manda un mensaje fash, con esto se recibe el mensaje y se guarda en la variable. si no se manda nada, la variable esta vacia-->
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">  <!-- "success" es el color verde -->
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+        {% endif %}
+        
+        {% endwith %}
+  
+
+
+
+        <div class="card card-body">  <!--tarjeta, un recuardo en blanco. permite colocar el formulario adentro-->
+            <form action="/add_contact" method = "POST">  <!--formulario-->
+                <div class="form-group">
+                    <input type="text" name="fullname" placeholder="Fullname" class= "form-control"> <!--cuando se guarde un dato a traves de este input, el servidor lo resive a traves de este nombre, y lo que se escribe es el valor de eso-->
+                </div> 
+                                                                                              <!--hace que se vea mejor el formcontrol -->
+                <div class="form-group">
+                    <input type="text" name="phone" placeholder="Phone"  class= "form-control">  
+                </div>  
+
+                <div class="form-group">
+                    <input type="text" name="email" placeholder="Email"  class= "form-control">
+                </div>                                                                          
+                
+                <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">
+                    Save
+                </button>
+                </div>
+            
+            </form> 
+        </div>
+
+    </div>
+
+    
+    <div class="col-md-7">
+
+        <table class="table table-striped table-bordered bg-white table-sm">
+            <thead>
+              <tr>
+                <td>Id</td>
+                <td>Fullname</td>
+                <td>Phone</td>
+                <td>Email</td>
+                <td>Operations</td>
+           
+              </tr>
+            </thead>
+            <tbody> <!--lo vamos a llenar con los datos que vienen de la base de datos, pero primero se hace la consulta. -->
+               {% for contact in contacts %}
+               <tr> <!-- una fila por cada dato que recorra el for -->
+                   <td> {{contact.0}} </td>                   
+                   <td> {{contact.1}} </td> <!-- entre dobles llaves porque queremos mostrar un valor, no un nombre. no es el indice 0 porque es el ID-->
+                   <td> {{contact.2}} </td>
+                   <td> {{contact.3}} </td>
+                   <td>
+                       <a href="/edit/{{ contact.0 }}" class="btn btn-secondary">Edit</a>  <!-- tenemos que pasarle el numero de ID para que sepa que dato tien que modificar -->
+                       <a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">Delete</a>
+                   </td>
+           
+           
+               </tr>
+               {% endfor %}
+            </tbody>   
+           </table>
+
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock %}

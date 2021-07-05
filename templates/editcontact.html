@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+<!-- el form-group es para darle una separacion a los inputs-->
+
+<div class="col-md-4 offset-md-4"> <!--va a ser de 4 colummnas y estara separado del borde 4 lugares-->
+
+    <div class="card card-body">
+        <form action="/update/{{contact.0}}" method = "POST"> <!-- la variable contact y el indice 0, que es el ID del usuario a modificar -->
+
+            <div class="form-group">
+                <input type="text" name="fullname" placeholder="Fullname" value="{{ contact.1 }}" class="form-control"> <!-- contact es la variable que viene como parametro, .1 por el indice que seria el nombre --> 
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="phone" placeholder="Phone" value="{{ contact.2 }}" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <input type="text" name="email" placeholder="Email" value="{{ contact.3 }}" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-success btn-block">
+                    Save
+              </button>
+            </div>
+
+        </form> 
+        
+    </div>
+
+</div>
+
+
+{% endblock %}
